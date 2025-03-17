@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/(.*)",
+        "destination": "http://nexifytw.mynetgear.com:45000/api/$1"
+      }
+    ]
+  }

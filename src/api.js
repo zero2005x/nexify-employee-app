@@ -1,7 +1,7 @@
 /**
  * API 服務基礎 URL
  */
-const API_BASE_URL = "http://nexifytw.mynetgear.com:45000";
+//const API_BASE_URL = "http://nexifytw.mynetgear.com:45000";
 
 /**
  * 從 API 獲取員工數據
@@ -10,7 +10,7 @@ const API_BASE_URL = "http://nexifytw.mynetgear.com:45000";
  * @throws {Error} 若獲取失敗則拋出錯誤
  */
 export const fetchEmployees = async () => {
-  const response = await fetch(`${API_BASE_URL}/api/Record/GetRecords`);
+  const response = await fetch("/api/Record/GetRecords");
   if (!response.ok) {
     throw new Error("Failed to fetch employees");
   }
@@ -29,7 +29,7 @@ export const saveEmployee = async (employees) => {
   // 如果傳入單個員工對象，則將其包裝成陣列
   const employeesArray = Array.isArray(employees) ? employees : [employees];
 
-  const response = await fetch(`${API_BASE_URL}/api/Record/SaveRecords`, {
+  const response = await fetch(`/api/Record/SaveRecords`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json", // 指定內容類型為 JSON
