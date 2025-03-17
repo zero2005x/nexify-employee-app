@@ -1,172 +1,107 @@
-# Nexify Employee App Documentation
+# Nexify 員工應用程式
 
-## Overview
+一個基於 React 的網頁應用程式，用於管理員工記錄，具有 CRUD 功能。
 
-Nexify Employee App is a React-based web application for managing employee records. The application allows users to view, add, and save employee information through a clean, responsive interface styled with Tailwind CSS.
+## 線上展示
 
-## Table of Contents
+訪問線上應用程式：[https://nexify-employee-app.vercel.app/](https://nexify-employee-app.vercel.app/)
 
-- Features
-- Tech Stack
-- Getting Started
-- Project Structure
-- Component Breakdown
-- API Integration
-- Styling
-- Future Enhancements
+## 程式碼庫
 
-## Features
+原始碼：[https://github.com/zero2005x/nexify-employee-app](https://github.com/zero2005x/nexify-employee-app)
 
-- **View Employees:** Display all employee records in a table format
-- **Add Employees:** Add new employee records with form validation
-- **Update Data:** Refresh employee data from the server
-- **Form Validation:** Validate input fields for required data and appropriate formats
-- **Responsive UI:** Clean interface that works across device sizes
+## 功能特點
 
-## Tech Stack
+- **檢視員工**：以表格格式顯示員工資訊
+- **新增員工**：創建新的員工記錄並進行驗證
+- **編輯員工**：更新現有員工資訊
+- **表單驗證**：確保所有必填欄位正確完成
+- **響應式設計**：使用 Tailwind CSS 實現的行動裝置友好介面
 
-- **React:** Front-end library for building the user interface
-- **Tailwind CSS:** Utility-first CSS framework for styling
-- **PropTypes:** Type checking for React props
-- **Fetch API:** For making HTTP requests to the backend server
+## 技術堆疊
 
-## Getting Started
+- **前端**：React.js
+- **樣式**：Tailwind CSS
+- **API 整合**：Fetch API 與 Vercel 無伺服器函數
+- **部署**：Vercel
+- **套件管理**：npm
+- **表單驗證**：自訂驗證實作
+- **代理設定**：用於 API 轉發的 Vercel 重寫規則
 
-### Prerequisites
+## 開始使用
 
-- Node.js (v14.0.0 or later)
-- npm (v6.0.0 or later)
+### 系統需求
 
-### Installation
+- Node.js (v16.0.0 或更高版本)
+- npm (v8.0.0 或更高版本)
 
-1. Clone the repository
+### 安裝步驟
+
+1. 複製程式碼庫：
 
 ```bash
-git clone https://github.com/your-username/nexify-employee-app.git
+git clone https://github.com/zero2005x/nexify-employee-app.git
 cd nexify-employee-app
 ```
 
-2. Install dependencies
+2. 安裝相依套件：
 
 ```bash
 npm install
 ```
 
-3. Create a .env file in the project root (if needed for configuration)
-
-```
-SKIP_PREFLIGHT_CHECK=true
-```
-
-4. Start the development server
+3. 啟動開發伺服器：
 
 ```bash
 npm start
 ```
 
-The application will be available at `http://localhost:3000`.
+4. 應用程式將在 `http://localhost:3000` 可用
 
-## Project Structure
+## 生產環境建置
 
-```
-nexify-employee-app/
-├── public/
-│   ├── index.html
-│   ├── favicon.ico
-│   └── manifest.json
-├── src/
-│   ├── App.js           # Main application component
-│   ├── App.css          # Tailwind CSS imports and custom styles
-│   ├── api.js           # API service functions
-│   ├── index.js         # React entry point
-│   └── index.css        # Global styles
-├── package.json         # Project dependencies and scripts
-├── tailwind.config.js   # Tailwind CSS configuration
-└── postcss.config.js    # PostCSS configuration for Tailwind
+```bash
+npm run build
 ```
 
-## Component Breakdown
+這將在 `build` 資料夾中創建生產環境建置檔案。
 
-### App.js
+## API 整合
 
-The main component that orchestrates the entire application:
+應用程式透過 Vercel 的重寫規則與後端 API 通訊：
 
-- Manages application state (employees, form data, UI states)
-- Handles API calls through the service functions
-- Contains the main UI layout and subcomponents
+- `GET /api/Record/GetRecords`：獲取員工記錄
+- `POST /api/Record/SaveRecords`：儲存員工資料
 
-### EmployeeRow
+API 代理設定在 vercel.json 中定義，將請求重定向到 `http://nexifytw.mynetgear.com:45000/api/`。
 
-Displays a single employee record in the table:
-
-- Shows name, date of birth, salary, and address
-- Displays salary as both a range input and numeric value
-
-### AddEmployeeRow
-
-Provides input fields for adding a new employee:
-
-- Input validation with error messages
-- Interactive range slider for salary
-
-## API Integration
-
-The application interacts with a RESTful API through the following endpoints:
-
-### Fetch Employees
+## 員工資料結構
 
 ```javascript
-GET http://nexifytw.mynetgear.com:45000/api/Record/GetRecords
-Response: { Success: true, Msg: "", Data: [{...}, {...}] }
-```
-
-### Save Employee
-
-```javascript
-POST http://nexifytw.mynetgear.com:45000/api/Record/SaveRecords
-Payload: [{Name:"Test1", DateOfBirth:"1995-1-1", Salary:54321, Address:"Test Address1"}, ...]
-Response: { Success: true, Msg: null, Data: null }
-```
-
-## Styling
-
-The application uses Tailwind CSS for styling with custom component classes defined in `App.css`:
-
-```css
-@layer components {
-  .btn-base {
-    @apply px-5 py-2.5 mr-2.5 cursor-pointer border-0 rounded;
-  }
-  .btn-add {
-    @apply btn-base bg-blue-500 text-white hover:bg-blue-600;
-  }
-  .btn-save {
-    @apply btn-base bg-green-500 text-white hover:bg-green-600;
-  }
-  .btn-update {
-    @apply btn-base bg-red-500 text-white hover:bg-red-600;
-  }
+{
+  Name: string,         // 員工全名
+  DateOfBirth: string,  // 日期格式：yyyy-mm-dd
+  Salary: number,       // 薪資金額 (0-100000)
+  Address: string       // 實體地址
 }
 ```
 
-## User Flow
+## 使用說明
 
-1. **Initial Screen**: The application loads and displays existing employee data (if any)
-2. **Update Data**: Users can click "Update" to refresh the employee list from the server
-3. **Add Employee**:
-   - Click "Add" to show the input row
-   - Fill in employee details (all fields except salary are required)
-   - Click "Save" to submit the new employee
-4. **Validation**: Form validation ensures all required fields are completed correctly
+1. **檢視員工**：點擊「更新」按鈕載入現有員工
+2. **新增員工**：點擊「新增」按鈕顯示輸入列
+3. **儲存新員工**：填寫表單並點擊「儲存」
+4. **編輯員工**：載入員工後，在編輯模式下修改他們的資訊
+5. **儲存變更**：編輯後點擊「更新」按鈕
 
-## Future Enhancements
+## 開發指令
 
-Potential improvements for future versions:
+- `npm start`：啟動開發伺服器
+- `npm test`：執行測試
+- `npm run build`：產生生產環境建置
+- `npm run lint`：程式碼檢查
+- `npm run format`：使用 prettier 格式化程式碼
 
-- Employee record editing functionality
-- Employee record deletion
-- Search and filtering capabilities
-- Pagination for large datasets
-- User authentication and permissions
-- Responsive design improvements for mobile
-- Unit and integration tests
+## 授權條款
+
+MIT 授權 - 詳見 package.json
