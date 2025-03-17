@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-base {
+    @apply px-5 py-2.5 mr-2.5 cursor-pointer border-0 rounded;
+  }
+  .btn-add {
+    @apply btn-base bg-blue-500 text-white hover:bg-blue-600;
+  }
+  .btn-save {
+    @apply btn-base bg-green-500 text-white hover:bg-green-600;
+  }
+  .btn-update {
+    @apply btn-base bg-red-500 text-white hover:bg-red-600;
+  }
+}
